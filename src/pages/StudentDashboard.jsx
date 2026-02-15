@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/authStore';
-import { LogOut, MessageSquare, BookOpen, Lightbulb, Zap, Calendar } from 'lucide-react';
+import { LogOut, MessageSquare, BookOpen, Lightbulb, Zap, Calendar, Layers } from 'lucide-react';
 import StudentChat from '../components/student/StudentChat';
 import MockTestEngine from '../components/student/MockTestEngine';
 import RevisionScheduler from '../components/student/RevisionScheduler';
+import FormulaFlashcards from '../components/student/FormulaFlashcards';
 
 export default function StudentDashboard() {
   const { user, logout } = useAuthStore();
@@ -110,6 +111,17 @@ export default function StudentDashboard() {
             Revision Plan
           </button>
           <button
+            onClick={() => setActiveSection('flashcards')}
+            className={`px-4 py-2 font-medium transition whitespace-nowrap ${
+              activeSection === 'flashcards'
+                ? 'text-teal-600 border-b-2 border-teal-600'
+                : 'text-gray-600 hover:text-gray-800'
+            }`}
+          >
+            <Layers className="w-5 h-5 inline mr-2" />
+            Flashcards
+          </button>
+          <button
             onClick={() => setActiveSection('formulas')}
             className={`px-4 py-2 font-medium transition whitespace-nowrap ${
               activeSection === 'formulas'
@@ -147,6 +159,8 @@ export default function StudentDashboard() {
         {activeSection === 'test' && <MockTestEngine />}
 
         {activeSection === 'revision' && <RevisionScheduler />}
+
+        {activeSection === 'flashcards' && <FormulaFlashcards />}
 
         {activeSection === 'formulas' && (
           <div>
