@@ -7,6 +7,7 @@ export default function Login() {
   const [role, setRole] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [schoolCode, setSchoolCode] = useState('');
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
 
@@ -18,7 +19,7 @@ export default function Login() {
     }
 
     const userData = { name, email, id: Date.now() };
-    login(userData, role);
+    login(userData, role, schoolCode);
 
     // Navigate based on role
     if (role === 'student' || role === 'guardian') {
@@ -81,6 +82,22 @@ export default function Login() {
               placeholder="Enter your email"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              School Code (Optional)
+            </label>
+            <input
+              type="text"
+              value={schoolCode}
+              onChange={(e) => setSchoolCode(e.target.value.toUpperCase())}
+              placeholder="e.g., RBSE001"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Teachers & students from same school can share homework and assignments
+            </p>
           </div>
 
           <button

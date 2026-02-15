@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/authStore';
-import { LogOut, MessageSquare, BookOpen, Lightbulb } from 'lucide-react';
+import { LogOut, MessageSquare, BookOpen, Lightbulb, Zap } from 'lucide-react';
 import StudentChat from '../components/student/StudentChat';
+import MockTestEngine from '../components/student/MockTestEngine';
 
 export default function StudentDashboard() {
   const { user, logout } = useAuthStore();
@@ -62,10 +63,10 @@ export default function StudentDashboard() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation Tabs */}
-        <div className="flex gap-4 mb-8 border-b border-gray-200">
+        <div className="flex gap-4 mb-8 border-b border-gray-200 overflow-x-auto">
           <button
             onClick={() => setActiveSection('subjects')}
-            className={`px-4 py-2 font-medium transition ${
+            className={`px-4 py-2 font-medium transition whitespace-nowrap ${
               activeSection === 'subjects'
                 ? 'text-teal-600 border-b-2 border-teal-600'
                 : 'text-gray-600 hover:text-gray-800'
@@ -76,7 +77,7 @@ export default function StudentDashboard() {
           </button>
           <button
             onClick={() => setActiveSection('chat')}
-            className={`px-4 py-2 font-medium transition ${
+            className={`px-4 py-2 font-medium transition whitespace-nowrap ${
               activeSection === 'chat'
                 ? 'text-teal-600 border-b-2 border-teal-600'
                 : 'text-gray-600 hover:text-gray-800'
@@ -86,8 +87,19 @@ export default function StudentDashboard() {
             Ask Tutor
           </button>
           <button
+            onClick={() => setActiveSection('test')}
+            className={`px-4 py-2 font-medium transition whitespace-nowrap ${
+              activeSection === 'test'
+                ? 'text-teal-600 border-b-2 border-teal-600'
+                : 'text-gray-600 hover:text-gray-800'
+            }`}
+          >
+            <Zap className="w-5 h-5 inline mr-2" />
+            Mock Test
+          </button>
+          <button
             onClick={() => setActiveSection('formulas')}
-            className={`px-4 py-2 font-medium transition ${
+            className={`px-4 py-2 font-medium transition whitespace-nowrap ${
               activeSection === 'formulas'
                 ? 'text-teal-600 border-b-2 border-teal-600'
                 : 'text-gray-600 hover:text-gray-800'
@@ -119,6 +131,8 @@ export default function StudentDashboard() {
         )}
 
         {activeSection === 'chat' && <StudentChat />}
+
+        {activeSection === 'test' && <MockTestEngine />}
 
         {activeSection === 'formulas' && (
           <div>
