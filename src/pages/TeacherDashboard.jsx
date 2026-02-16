@@ -10,6 +10,10 @@ import {
   MessageSquare,
   FileCheck,
   BarChart3,
+  Clock,
+  Users,
+  Calendar,
+  Lightbulb,
 } from 'lucide-react';
 import DailyDiaryGenerator from '../components/teacher/DailyDiaryGenerator';
 import LessonPlanMaker from '../components/teacher/LessonPlanMaker';
@@ -19,6 +23,14 @@ import CircularTracker from '../components/teacher/CircularTracker';
 import ParentCommunicationHelper from '../components/teacher/ParentCommunicationHelper';
 import APARAssistant from '../components/teacher/APARAssistant';
 import ResultAnalysisTool from '../components/teacher/ResultAnalysisTool';
+import TimetableBuilder from '../components/teacher/TimetableBuilder';
+import StudentProgressTracker from '../components/teacher/StudentProgressTracker';
+import HomeworkManager from '../components/teacher/HomeworkManager';
+import SchemeOfWorkPlanner from '../components/teacher/SchemeOfWorkPlanner';
+import MeetingNotesGenerator from '../components/teacher/MeetingNotesGenerator';
+import WorksheetCreator from '../components/teacher/WorksheetCreator';
+import DevelopmentLog from '../components/teacher/DevelopmentLog';
+import ObservationReportGenerator from '../components/teacher/ObservationReportGenerator';
 
 export default function TeacherDashboard() {
   const { user, logout } = useAuthStore();
@@ -93,6 +105,72 @@ export default function TeacherDashboard() {
       icon: BarChart3,
       color: 'bg-teal-100 text-teal-600',
       description: 'Analyze student results',
+      priority: 'low',
+    },
+    // Phase 2 Features
+    {
+      id: 'timetable',
+      name: 'Timetable Builder',
+      icon: Clock,
+      color: 'bg-indigo-100 text-indigo-600',
+      description: 'Create and manage weekly timetables',
+      priority: 'high',
+    },
+    {
+      id: 'progress',
+      name: 'Student Progress',
+      icon: Users,
+      color: 'bg-cyan-100 text-cyan-600',
+      description: 'Track student performance and analytics',
+      priority: 'high',
+    },
+    {
+      id: 'homework',
+      name: 'Homework Manager',
+      icon: BookOpen,
+      color: 'bg-blue-100 text-blue-600',
+      description: 'Assign and track homework',
+      priority: 'high',
+    },
+    {
+      id: 'scheme',
+      name: 'Scheme of Work',
+      icon: Calendar,
+      color: 'bg-amber-100 text-amber-600',
+      description: 'Plan term-wise teaching schedule',
+      priority: 'medium',
+    },
+    {
+      id: 'meeting',
+      name: 'Meeting Notes',
+      icon: FileText,
+      color: 'bg-orange-100 text-orange-600',
+      description: 'Format meeting minutes',
+      priority: 'medium',
+    },
+    // Phase 3 Features
+    {
+      id: 'worksheet',
+      name: 'Worksheet Creator',
+      icon: FileCheck,
+      color: 'bg-cyan-100 text-cyan-600',
+      description: 'Create bilingual worksheets',
+      priority: 'medium',
+    },
+    {
+      id: 'development',
+      name: 'Development Log',
+      icon: Lightbulb,
+      color: 'bg-rose-100 text-rose-600',
+      description: 'Track professional development',
+      priority: 'medium',
+    },
+    {
+      id: 'observation',
+      name: 'Observation Report',
+      icon: FileText,
+      color: 'bg-lime-100 text-lime-600',
+      description: 'Generate observation reports',
       priority: 'low',
     },
   ];
@@ -286,6 +364,104 @@ export default function TeacherDashboard() {
               ← Back
             </button>
             <ResultAnalysisTool />
+          </>
+        )}
+
+        {/* Phase 2 Features */}
+        {activeModule === 'timetable' && (
+          <>
+            <button
+              onClick={() => setActiveModule('overview')}
+              className="mb-6 text-teal-600 hover:text-teal-700 font-medium flex items-center gap-2"
+            >
+              ← Back
+            </button>
+            <TimetableBuilder />
+          </>
+        )}
+
+        {activeModule === 'progress' && (
+          <>
+            <button
+              onClick={() => setActiveModule('overview')}
+              className="mb-6 text-teal-600 hover:text-teal-700 font-medium flex items-center gap-2"
+            >
+              ← Back
+            </button>
+            <StudentProgressTracker />
+          </>
+        )}
+
+        {activeModule === 'homework' && (
+          <>
+            <button
+              onClick={() => setActiveModule('overview')}
+              className="mb-6 text-teal-600 hover:text-teal-700 font-medium flex items-center gap-2"
+            >
+              ← Back
+            </button>
+            <HomeworkManager />
+          </>
+        )}
+
+        {activeModule === 'scheme' && (
+          <>
+            <button
+              onClick={() => setActiveModule('overview')}
+              className="mb-6 text-teal-600 hover:text-teal-700 font-medium flex items-center gap-2"
+            >
+              ← Back
+            </button>
+            <SchemeOfWorkPlanner />
+          </>
+        )}
+
+        {activeModule === 'meeting' && (
+          <>
+            <button
+              onClick={() => setActiveModule('overview')}
+              className="mb-6 text-teal-600 hover:text-teal-700 font-medium flex items-center gap-2"
+            >
+              ← Back
+            </button>
+            <MeetingNotesGenerator />
+          </>
+        )}
+
+        {/* Phase 3 Features */}
+        {activeModule === 'worksheet' && (
+          <>
+            <button
+              onClick={() => setActiveModule('overview')}
+              className="mb-6 text-teal-600 hover:text-teal-700 font-medium flex items-center gap-2"
+            >
+              ← Back
+            </button>
+            <WorksheetCreator />
+          </>
+        )}
+
+        {activeModule === 'development' && (
+          <>
+            <button
+              onClick={() => setActiveModule('overview')}
+              className="mb-6 text-teal-600 hover:text-teal-700 font-medium flex items-center gap-2"
+            >
+              ← Back
+            </button>
+            <DevelopmentLog />
+          </>
+        )}
+
+        {activeModule === 'observation' && (
+          <>
+            <button
+              onClick={() => setActiveModule('overview')}
+              className="mb-6 text-teal-600 hover:text-teal-700 font-medium flex items-center gap-2"
+            >
+              ← Back
+            </button>
+            <ObservationReportGenerator />
           </>
         )}
       </div>
