@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { BarChart3, Download, Copy } from 'lucide-react';
 import jsPDF from 'jspdf';
 
 export default function ResultAnalysisTool() {
+  const toast = useToast();
   const [marks, setMarks] = useState([
     { studentName: 'Rahul', marks: 85 },
     { studentName: 'Priya', marks: 92 },
@@ -14,7 +16,7 @@ export default function ResultAnalysisTool() {
 
   const handleAddMarks = () => {
     if (!newStudent.trim() || !newMarks || isNaN(newMarks)) {
-      alert('Please enter valid student name and marks');
+      toast.warning('Please enter valid student name and marks');
       return;
     }
 
@@ -104,7 +106,7 @@ RECOMMENDATIONS:
 
   const handleCopyReport = () => {
     navigator.clipboard.writeText(generateReport());
-    alert('Report copied to clipboard!');
+    toast.success('Copied to clipboard!');
   };
 
   return (

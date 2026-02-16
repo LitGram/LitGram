@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { Clock, Plus, Trash2, Download, Copy } from 'lucide-react';
 import { exportTextAsPDF, copyToClipboard } from '../../utils/exportService';
 
@@ -14,6 +15,7 @@ const COLORS = {
 };
 
 export default function TimetableBuilder() {
+  const toast = useToast();
   const [phase, setPhase] = useState('config'); // 'config' or 'view'
   const [config, setConfig] = useState({
     periodsPerDay: 6,
@@ -27,7 +29,7 @@ export default function TimetableBuilder() {
 
   const handleGenerateTimetable = () => {
     if (config.subjects.length === 0 || config.classes.length === 0) {
-      alert('Please select subjects and classes');
+      toast.warning('Please select subjects and classes');
       return;
     }
 
@@ -101,7 +103,7 @@ export default function TimetableBuilder() {
       content += '\n';
     });
     copyToClipboard(content);
-    alert('Timetable copied to clipboard!');
+    toast.success('Copied to clipboard!');
   };
 
   if (phase === 'view' && timetable) {

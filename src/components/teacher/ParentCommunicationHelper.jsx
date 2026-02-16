@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { MessageSquare, Copy } from 'lucide-react';
 
 export default function ParentCommunicationHelper() {
+  const toast = useToast();
   const [quickNote, setQuickNote] = useState('');
   const [language, setLanguage] = useState('english');
   const [generatedMessage, setGeneratedMessage] = useState('');
@@ -46,7 +48,7 @@ Class Teacher`,
 
   const handleGenerateMessage = () => {
     if (!quickNote.trim()) {
-      alert('Please enter your note');
+      toast.warning('Please enter your note');
       return;
     }
 
@@ -66,7 +68,7 @@ Class Teacher`,
 
   const handleCopy = () => {
     navigator.clipboard.writeText(generatedMessage);
-    alert('Message copied to clipboard! Ready to paste on WhatsApp or Email.');
+    toast.success('Copied to clipboard!');
   };
 
   return (

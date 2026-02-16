@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { BookOpen, Plus, CheckCircle, AlertCircle, Trash2 } from 'lucide-react';
 import { formatDate } from '../../utils/exportService';
 
 export default function HomeworkManager() {
+  const toast = useToast();
   const [homeworks, setHomeworks] = useState([
     {
       id: 1,

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { FileText, Copy, Download } from 'lucide-react';
 import { exportTextAsPDF, copyToClipboard } from '../../utils/exportService';
 
 export default function MeetingNotesGenerator() {
+  const toast = useToast();
   const [language, setLanguage] = useState('english');
   const [roughNotes, setRoughNotes] = useState('');
   const [formattedMinutes, setFormattedMinutes] = useState(null);
@@ -83,7 +85,7 @@ Signature: _________________
 
   const handleGenerateMinutes = () => {
     if (!roughNotes.trim()) {
-      alert('Please enter meeting notes');
+      toast.warning('Please enter meeting notes');
       return;
     }
 
@@ -107,7 +109,7 @@ Signature: _________________
   const handleCopy = () => {
     if (formattedMinutes) {
       copyToClipboard(formattedMinutes);
-      alert('Minutes copied to clipboard!');
+      toast.success('Copied to clipboard!');
     }
   };
 

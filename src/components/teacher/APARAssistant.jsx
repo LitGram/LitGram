@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { FileCheck, Copy, Download } from 'lucide-react';
 import jsPDF from 'jspdf';
 
 export default function APARAssistant() {
+  const toast = useToast();
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
@@ -64,7 +66,7 @@ Signature: ___________________`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(generatedAPAR);
-    alert('APAR copied to clipboard!');
+    toast.success('Copied to clipboard!');
   };
 
   const handleDownloadPDF = () => {

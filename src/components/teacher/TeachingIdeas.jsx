@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { Lightbulb, Copy } from 'lucide-react';
 
 export default function TeachingIdeas() {
+  const toast = useToast();
   const [topic, setTopic] = useState('');
   const [className, setClassName] = useState('');
   const [resources, setResources] = useState('');
@@ -40,7 +42,7 @@ export default function TeachingIdeas() {
 
   const handleCopyIdea = (idea) => {
     navigator.clipboard.writeText(`${idea.title}\n${idea.description}`);
-    alert('Idea copied to clipboard!');
+    toast.success('Copied to clipboard!');
   };
 
   return (

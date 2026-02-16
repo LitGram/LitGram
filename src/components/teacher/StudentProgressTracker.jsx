@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { BarChart3, Plus, Trash2, TrendingUp, Trophy, AlertCircle } from 'lucide-react';
 import { exportTextAsPDF } from '../../utils/exportService';
 
 export default function StudentProgressTracker() {
+  const toast = useToast();
   const [phase, setPhase] = useState('view'); // 'view' or 'addScore'
   const [students, setStudents] = useState([
     { id: 1, name: 'Rahul Kumar', rollNo: 1, scores: [75, 82, 88] },
@@ -15,7 +17,7 @@ export default function StudentProgressTracker() {
 
   const handleAddStudent = () => {
     if (!newStudent.name || !newStudent.rollNo) {
-      alert('Please enter name and roll number');
+      toast.warning('Please enter name and roll number');
       return;
     }
     setStudents(prev => [...prev, {
@@ -33,7 +35,7 @@ export default function StudentProgressTracker() {
 
   const handleAddScore = () => {
     if (!selectedStudent || !newScore || isNaN(newScore)) {
-      alert('Please select student and enter valid score');
+      toast.warning('Please select student and enter valid score');
       return;
     }
     setStudents(prev => prev.map(s =>

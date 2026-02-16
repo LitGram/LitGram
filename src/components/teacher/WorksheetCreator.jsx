@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { FileText, Download, Copy } from 'lucide-react';
 import { exportTextAsPDF, copyToClipboard } from '../../utils/exportService';
 import { getSubjectChapters } from '../../data/curriculum';
 
 export default function WorksheetCreator() {
+  const toast = useToast();
   const [formData, setFormData] = useState({
     subject: '',
     class: '',
@@ -109,7 +111,7 @@ SECTION C: PROBLEM SOLVING
 
   const handleGenerateWorksheet = async () => {
     if (!formData.subject || !formData.class || !formData.chapter) {
-      alert('Please select all fields');
+      toast.warning('Please select all fields');
       return;
     }
 
@@ -134,7 +136,7 @@ SECTION C: PROBLEM SOLVING
   const handleCopy = () => {
     if (worksheet) {
       copyToClipboard(worksheet);
-      alert('Worksheet copied to clipboard!');
+      toast.success('Copied to clipboard!');
     }
   };
 

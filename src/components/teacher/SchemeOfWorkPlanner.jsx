@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { Calendar, Download } from 'lucide-react';
 import { exportTextAsPDF } from '../../utils/exportService';
 import { RBSE_CURRICULUM, getSubjectChapters } from '../../data/curriculum';
@@ -16,6 +17,7 @@ const RAJASTHAN_HOLIDAYS = [
 ];
 
 export default function SchemeOfWorkPlanner() {
+  const toast = useToast();
   const [formData, setFormData] = useState({
     subject: '',
     class: '',

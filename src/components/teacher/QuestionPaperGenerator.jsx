@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { Copy, Download, FileCheck } from 'lucide-react';
 import { generateQuestionPaper } from '../../api/aiService';
 import jsPDF from 'jspdf';
 
 export default function QuestionPaperGenerator() {
+  const toast = useToast();
   const [formData, setFormData] = useState({
     subject: '',
     className: '',
@@ -31,7 +33,7 @@ export default function QuestionPaperGenerator() {
 
   const handleGenerate = async () => {
     if (!formData.subject || !formData.className || !formData.chapters) {
-      alert('Please fill in all required fields');
+      toast.warning('Please fill in all required fields');
       return;
     }
 
@@ -50,7 +52,7 @@ export default function QuestionPaperGenerator() {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(generatedPaper);
-    alert('Question paper copied to clipboard!');
+    toast.success('Copied to clipboard!');
   };
 
   const handleDownloadPDF = () => {

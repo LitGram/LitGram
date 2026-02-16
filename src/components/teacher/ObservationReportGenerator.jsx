@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { FileText, Copy, Download } from 'lucide-react';
 import { exportTextAsPDF, copyToClipboard, formatDate } from '../../utils/exportService';
 
 export default function ObservationReportGenerator() {
+  const toast = useToast();
   const [language, setLanguage] = useState('english');
   const [formData, setFormData] = useState({
     date: '',
@@ -107,7 +109,7 @@ ${formData.improvements.split('\n').map(i => `• ${i.trim()}`).join('\n')}
   const handleCopy = () => {
     if (report) {
       copyToClipboard(report);
-      alert('Report copied to clipboard!');
+      toast.success('Copied to clipboard!');
     }
   };
 

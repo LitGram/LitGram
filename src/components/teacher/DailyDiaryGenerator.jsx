@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { Copy, Download, FileText } from 'lucide-react';
 import { generateDailyDiary } from '../../api/aiService';
 import jsPDF from 'jspdf';
 
 export default function DailyDiaryGenerator() {
+  const toast = useToast();
   const [formData, setFormData] = useState({
     subject: '',
     className: '',
@@ -22,7 +24,7 @@ export default function DailyDiaryGenerator() {
 
   const handleGenerate = async () => {
     if (!formData.subject || !formData.className || !formData.topic || !formData.period) {
-      alert('Please fill in all required fields');
+      toast.warning('Please fill in all required fields');
       return;
     }
 
@@ -41,7 +43,7 @@ export default function DailyDiaryGenerator() {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(generatedDiary);
-    alert('Diary entry copied to clipboard!');
+    toast.success('Copied to clipboard!');
   };
 
   const handleDownloadPDF = () => {

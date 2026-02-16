@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { AlertCircle, Trash2, CheckCircle, Clock } from 'lucide-react';
 
 export default function CircularTracker() {
+  const toast = useToast();
   const [circulars, setCirculars] = useState([
     {
       id: 1,
@@ -17,7 +19,7 @@ export default function CircularTracker() {
 
   const handleAddCircular = () => {
     if (!newCircular.trim()) {
-      alert('Please enter circular text');
+      toast.warning('Please enter circular text');
       return;
     }
 

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { Copy, Download, BookOpen } from 'lucide-react';
 import { generateLessonPlan } from '../../api/aiService';
 import jsPDF from 'jspdf';
 
 export default function LessonPlanMaker() {
+  const toast = useToast();
   const [formData, setFormData] = useState({
     subject: '',
     className: '',
@@ -20,7 +22,7 @@ export default function LessonPlanMaker() {
 
   const handleGenerate = async () => {
     if (!formData.subject || !formData.className || !formData.chapterName || !formData.periods) {
-      alert('Please fill in all required fields');
+      toast.warning('Please fill in all required fields');
       return;
     }
 
@@ -37,7 +39,7 @@ export default function LessonPlanMaker() {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(generatedPlan);
-    alert('Lesson plan copied to clipboard!');
+    toast.success('Copied to clipboard!');
   };
 
   const handleDownloadPDF = () => {

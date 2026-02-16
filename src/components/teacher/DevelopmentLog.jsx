@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useToast } from '../Toast';
 import { BookOpen, Plus, Trash2, Download } from 'lucide-react';
 import { exportTextAsPDF, formatDate } from '../../utils/exportService';
 
 export default function DevelopmentLog() {
+  const toast = useToast();
   const [trainings, setTrainings] = useState([
     {
       id: 1,
