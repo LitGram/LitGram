@@ -31,6 +31,7 @@ import MeetingNotesGenerator from '../components/teacher/MeetingNotesGenerator';
 import WorksheetCreator from '../components/teacher/WorksheetCreator';
 import DevelopmentLog from '../components/teacher/DevelopmentLog';
 import ObservationReportGenerator from '../components/teacher/ObservationReportGenerator';
+import NotificationCenter from '../components/NotificationCenter';
 
 export default function TeacherDashboard() {
   const { user, logout } = useAuthStore();
@@ -189,6 +190,7 @@ export default function TeacherDashboard() {
               </div>
             </div>
             <div className="flex items-center gap-4">
+              <NotificationCenter />
               <div className="text-right">
                 <p className="font-medium text-gray-800">{user?.name}</p>
                 <p className="text-sm text-gray-600">Teacher</p>
