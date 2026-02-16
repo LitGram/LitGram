@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { Mic, Square, Send, Copy, Trash2, Volume2, Settings } from 'lucide-react';
+import { useToast } from '../Toast';
 
 export default function VoiceInput() {
+  const toast = useToast();
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [language, setLanguage] = useState('en-IN');
@@ -35,7 +37,7 @@ export default function VoiceInput() {
     try {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
-        alert('Speech Recognition not supported in your browser');
+        toast.error('Speech Recognition not supported in your browser');
         return;
       }
 
@@ -99,8 +101,11 @@ export default function VoiceInput() {
   };
 
   const handleCopyText = (text) => {
-    navigator.clipboard.writeText(text);
-    alert('Copied to clipboard!');
+    navigator.clipboard.writeText(text).then(() => {
+      toast.success('Copied to clipboard!');
+    }).catch(() => {
+      toast.error('Failed to copy');
+    });
   };
 
   const handleDeleteEntry = (id) => {
@@ -260,8 +265,9 @@ export default function VoiceInput() {
                     Copy
                   </button>
                   <button
-                    onClick={() => alert('Sending: ' + entry.text)}
+                    onClick={() => toast.success('Question sent to tutor!')}
                     className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition flex items-center justify-center gap-1"
+                    aria-label="Send question to tutor"
                   >
                     <Send className="w-4 h-4" />
                     Send

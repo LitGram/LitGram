@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { Calendar, CheckCircle, AlertCircle, RotateCcw } from 'lucide-react';
 import { RBSE_CURRICULUM } from '../../data/curriculum';
+import { useToast } from '../Toast';
 
 export default function RevisionScheduler() {
+  const toast = useToast();
   const [examDate, setExamDate] = useState('');
   const [selectedSubjects, setSelectedSubjects] = useState([]);
   const [comfortLevels, setComfortLevels] = useState({});
@@ -27,8 +29,12 @@ export default function RevisionScheduler() {
   };
 
   const generateSchedule = () => {
-    if (!examDate || selectedSubjects.length === 0) {
-      alert('Please select exam date and at least one subject');
+    if (!examDate) {
+      toast.warning('Please select an exam date');
+      return;
+    }
+    if (selectedSubjects.length === 0) {
+      toast.warning('Please select at least one subject');
       return;
     }
 
@@ -37,7 +43,7 @@ export default function RevisionScheduler() {
     const daysAvailable = Math.ceil((exam - today) / (1000 * 60 * 60 * 24));
 
     if (daysAvailable <= 0) {
-      alert('Exam date must be in the future');
+      toast.error('Exam date must be in the future');
       return;
     }
 

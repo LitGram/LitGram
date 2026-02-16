@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Layers, Plus, Trash2, Edit2, Download, Share2, Eye, ZoomIn, ZoomOut } from 'lucide-react';
+import { useToast } from '../Toast';
 
 export default function ConceptMaps() {
+  const toast = useToast();
   const [maps, setMaps] = useState([
     {
       id: 1,
@@ -116,11 +118,11 @@ export default function ConceptMaps() {
   };
 
   const handleDownloadMap = (mapId) => {
-    alert(`Downloading concept map ${mapId} as PNG`);
+    toast.success('Concept map downloaded!');
   };
 
   const handleShareMap = (mapId) => {
-    alert('Share link copied to clipboard!');
+    toast.success('Share link copied to clipboard!');
   };
 
   const getTimeAgo = (date) => {

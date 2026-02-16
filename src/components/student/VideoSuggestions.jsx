@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Play, Clock, TrendingUp, BookOpen, Filter, Search, Eye, ThumbsUp, MessageSquare, Share2 } from 'lucide-react';
+import { useToast } from '../Toast';
 
 export default function VideoSuggestions() {
+  const toast = useToast();
   const [videos, setVideos] = useState([
     {
       id: 1,
@@ -157,8 +159,9 @@ export default function VideoSuggestions() {
                 {selectedVideo.liked ? 'Liked' : 'Like'}
               </button>
               <button
-                onClick={() => alert('Share link copied!')}
+                onClick={() => toast.success('Share link copied to clipboard!')}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2"
+                aria-label="Share video"
               >
                 <Share2 className="w-4 h-4" />
                 Share
@@ -231,7 +234,7 @@ export default function VideoSuggestions() {
               {selectedVideo.watched ? '✓ Watched' : 'Mark as Watched'}
             </button>
             <button
-              onClick={() => alert('Added to your study playlist!')}
+              onClick={() => toast.success('Added to your study playlist!')}
               className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold"
             >
               Add to Playlist

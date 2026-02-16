@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { FileText, Download, Eye, Calendar, TrendingUp, BookOpen, Filter, Search, ChevronRight } from 'lucide-react';
+import { useToast } from '../Toast';
 
 export default function PreviousYearPapers() {
+  const toast = useToast();
   const [papers, setPapers] = useState([
     {
       id: 1,
@@ -96,7 +98,7 @@ export default function PreviousYearPapers() {
   };
 
   const handleDownloadPaper = (paperId) => {
-    alert(`Downloaded paper ${paperId}`);
+    toast.success('Paper downloaded successfully!');
   };
 
   const topicFrequency = papers.reduce((acc, paper) => {

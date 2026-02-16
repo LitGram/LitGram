@@ -3,8 +3,10 @@ import { BookOpen, Timer, AlertCircle } from 'lucide-react';
 import { RBSE_CURRICULUM, getSubjectChapters } from '../../data/curriculum';
 import TestRunner from './TestRunner';
 import TestResults from './TestResults';
+import { useToast } from '../Toast';
 
 export default function MockTestEngine() {
+  const toast = useToast();
   const [phase, setPhase] = useState('config'); // 'config', 'running', 'results'
   const [testConfig, setTestConfig] = useState({
     subject: '',
@@ -29,8 +31,12 @@ export default function MockTestEngine() {
   };
 
   const handleStartTest = () => {
-    if (!testConfig.subject || testConfig.chapters.length === 0) {
-      alert('Please select subject and at least one chapter');
+    if (!testConfig.subject) {
+      toast.warning('Please select a subject');
+      return;
+    }
+    if (testConfig.chapters.length === 0) {
+      toast.warning('Please select at least one chapter');
       return;
     }
     setPhase('running');
