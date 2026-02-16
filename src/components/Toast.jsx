@@ -48,7 +48,7 @@ export function useToast() {
 
 function ToastContainer({ toasts, removeToast }) {
   return (
-    <div className="fixed bottom-4 right-4 z-50 space-y-2 pointer-events-none">
+    <div className="fixed top-4 sm:bottom-4 sm:top-auto right-2 sm:right-4 z-50 space-y-2 pointer-events-none left-2 sm:left-auto">
       {toasts.map(toast => (
         <Toast key={toast.id} {...toast} onClose={() => removeToast(toast.id)} />
       ))}
@@ -99,15 +99,15 @@ function Toast({ id, message, type, onClose }) {
 
   return (
     <div
-      className={`${styles.bg} ${styles.border} border rounded-lg shadow-lg p-4 flex items-start gap-3 pointer-events-auto animate-in slide-in-from-right-full duration-300 max-w-sm`}
+      className={`${styles.bg} ${styles.border} border rounded-lg shadow-lg p-3 sm:p-4 flex items-start gap-2 sm:gap-3 pointer-events-auto animate-in slide-in-from-right-full duration-300 max-w-sm w-full`}
       role="alert"
       aria-live="polite"
     >
       <Icon className={`w-5 h-5 ${styles.icon} flex-shrink-0 mt-0.5`} />
-      <p className={`${styles.text} text-sm flex-1`}>{message}</p>
+      <p className={`${styles.text} text-sm sm:text-base flex-1`}>{message}</p>
       <button
         onClick={onClose}
-        className={`${styles.icon} hover:opacity-70 flex-shrink-0 transition p-1`}
+        className={`${styles.icon} hover:opacity-70 flex-shrink-0 transition p-2 sm:p-1`}
         aria-label="Close notification"
       >
         <X className="w-4 h-4" />

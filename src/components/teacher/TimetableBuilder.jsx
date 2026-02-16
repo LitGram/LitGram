@@ -127,13 +127,14 @@ export default function TimetableBuilder() {
 
         {/* Timetable Grid */}
         <div className="bg-white rounded-lg shadow overflow-x-auto p-4">
-          <table className="w-full border-collapse">
+          <table className="w-full border-collapse text-xs sm:text-sm">
             <thead>
               <tr className="bg-gray-100">
-                <th className="border border-gray-300 p-3 text-left font-bold">Period</th>
+                <th className="border border-gray-300 p-2 sm:p-3 text-left font-bold text-xs sm:text-sm">Period</th>
                 {DAYS.map(day => (
-                  <th key={day} className="border border-gray-300 p-3 text-center font-bold">
-                    {day.slice(0, 3).toUpperCase()}
+                  <th key={day} className="border border-gray-300 p-2 sm:p-3 text-center font-bold text-xs sm:text-sm">
+                    <span className="hidden sm:inline">{day.slice(0, 3).toUpperCase()}</span>
+                    <span className="sm:hidden">{day.charAt(0)}</span>
                   </th>
                 ))}
               </tr>
@@ -141,17 +142,17 @@ export default function TimetableBuilder() {
             <tbody>
               {Array.from({ length: config.periodsPerDay }).map((_, idx) => (
                 <tr key={idx}>
-                  <td className="border border-gray-300 p-3 font-medium text-center bg-gray-50">
-                    {idx === config.breakAfter ? 'BREAK' : `P${idx + 1}`}
+                  <td className="border border-gray-300 p-2 sm:p-3 font-medium text-center bg-gray-50 text-xs sm:text-sm">
+                    {idx === config.breakAfter ? 'B' : `P${idx + 1}`}
                   </td>
                   {DAYS.map(day => {
                     const slot = timetable[day][idx];
-                    if (!slot) return <td key={day} className="border border-gray-300 p-3"></td>;
+                    if (!slot) return <td key={day} className="border border-gray-300 p-2 sm:p-3"></td>;
 
                     return (
                       <td
                         key={day}
-                        className="border border-gray-300 p-2"
+                        className="border border-gray-300 p-1.5 sm:p-2"
                         style={{
                           backgroundColor: slot.isBreak ? '#f3f4f6' : `${COLORS[slot.subject]}15`,
                         }}
@@ -161,11 +162,11 @@ export default function TimetableBuilder() {
                             BREAK<br />({config.breakDuration}m)
                           </div>
                         ) : (
-                          <div className="space-y-2">
+                          <div className="space-y-1 sm:space-y-2">
                             <select
                               value={slot.subject}
                               onChange={(e) => handleSubjectChange(day, idx, e.target.value)}
-                              className="w-full px-2 py-1 border border-gray-300 rounded text-sm"
+                              className="w-full px-2 py-1.5 sm:py-2 border border-gray-300 rounded text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
                               style={{ borderColor: COLORS[slot.subject] }}
                             >
                               {SUBJECTS.map(s => (
@@ -175,7 +176,7 @@ export default function TimetableBuilder() {
                             <select
                               value={slot.class}
                               onChange={(e) => handleClassChange(day, idx, e.target.value)}
-                              className="w-full px-2 py-1 border border-gray-300 rounded text-sm"
+                              className="w-full px-2 py-1.5 sm:py-2 border border-gray-300 rounded text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             >
                               {config.classes.map(c => (
                                 <option key={c} value={c}>{c}</option>

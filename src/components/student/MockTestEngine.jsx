@@ -147,7 +147,7 @@ export default function MockTestEngine() {
                 ...prev,
                 numQuestions: parseInt(e.target.value)
               }))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
             >
               <option value={10}>10 Questions</option>
               <option value={20}>20 Questions</option>
@@ -166,7 +166,7 @@ export default function MockTestEngine() {
                 ...prev,
                 timeLimit: parseInt(e.target.value)
               }))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
             >
               <option value={15}>15 minutes</option>
               <option value={30}>30 minutes</option>

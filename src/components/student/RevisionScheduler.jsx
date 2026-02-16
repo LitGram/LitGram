@@ -139,7 +139,7 @@ export default function RevisionScheduler() {
             Revision Scheduler
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {/* Exam Date */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -149,7 +149,7 @@ export default function RevisionScheduler() {
                 type="date"
                 value={examDate}
                 onChange={(e) => setExamDate(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-base"
               />
             </div>
 
@@ -189,7 +189,7 @@ export default function RevisionScheduler() {
                         <button
                           key={level}
                           onClick={() => handleComfortChange(subject, level)}
-                          className={`px-3 py-1 rounded text-sm font-medium transition ${
+                          className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded text-xs sm:text-sm font-medium transition ${
                             comfortLevels[subject] === level
                               ? level === 'weak'
                                 ? 'bg-red-600 text-white'
@@ -224,29 +224,31 @@ export default function RevisionScheduler() {
               <h2 className="text-2xl font-bold text-gray-800">Your Revision Plan</h2>
               <button
                 onClick={handleReset}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+                aria-label="Change revision plan"
               >
                 <RotateCcw className="w-4 h-4" />
-                Change Plan
+                <span className="hidden sm:inline">Change Plan</span>
+                <span className="sm:hidden">Reset</span>
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <p className="text-gray-600 text-sm">Total Days</p>
-                <p className="text-3xl font-bold text-blue-600">{totalDays}</p>
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+              <div className="bg-blue-50 p-3 sm:p-4 rounded-lg">
+                <p className="text-gray-600 text-xs sm:text-sm">Total Days</p>
+                <p className="text-2xl sm:text-3xl font-bold text-blue-600">{totalDays}</p>
               </div>
-              <div className="bg-green-50 p-4 rounded-lg">
-                <p className="text-gray-600 text-sm">Completed</p>
-                <p className="text-3xl font-bold text-green-600">{completedCount}</p>
+              <div className="bg-green-50 p-3 sm:p-4 rounded-lg">
+                <p className="text-gray-600 text-xs sm:text-sm">Completed</p>
+                <p className="text-2xl sm:text-3xl font-bold text-green-600">{completedCount}</p>
               </div>
-              <div className="bg-purple-50 p-4 rounded-lg">
-                <p className="text-gray-600 text-sm">Remaining</p>
-                <p className="text-3xl font-bold text-purple-600">{totalDays - completedCount}</p>
+              <div className="bg-purple-50 p-3 sm:p-4 rounded-lg">
+                <p className="text-gray-600 text-xs sm:text-sm">Remaining</p>
+                <p className="text-2xl sm:text-3xl font-bold text-purple-600">{totalDays - completedCount}</p>
               </div>
-              <div className="bg-yellow-50 p-4 rounded-lg">
-                <p className="text-gray-600 text-sm">Progress</p>
-                <p className="text-3xl font-bold text-yellow-600">{completionPercent.toFixed(0)}%</p>
+              <div className="bg-yellow-50 p-3 sm:p-4 rounded-lg">
+                <p className="text-gray-600 text-xs sm:text-sm">Progress</p>
+                <p className="text-2xl sm:text-3xl font-bold text-yellow-600">{completionPercent.toFixed(0)}%</p>
               </div>
             </div>
 
@@ -261,10 +263,11 @@ export default function RevisionScheduler() {
           {/* Calendar Grid */}
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-lg font-bold text-gray-800 mb-4">Revision Calendar</h3>
-            <div className="grid grid-cols-7 gap-2">
+            <div className="grid grid-cols-7 gap-1 sm:gap-2">
               {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                <div key={day} className="text-center font-bold text-gray-600 py-2">
-                  {day}
+                <div key={day} className="text-center font-bold text-gray-600 py-2 text-xs sm:text-sm">
+                  <span className="hidden sm:inline">{day}</span>
+                  <span className="sm:hidden">{day.charAt(0)}</span>
                 </div>
               ))}
 
