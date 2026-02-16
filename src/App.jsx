@@ -5,6 +5,7 @@ import Login from './components/auth/Login';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import StudentDashboard from './pages/StudentDashboard';
 import TeacherDashboard from './pages/TeacherDashboard';
+import { ToastProvider } from './components/Toast';
 
 function App() {
   const initializeFromStorage = useAuthStore((state) => state.initializeFromStorage);
@@ -14,31 +15,33 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
+    <ToastProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
 
-        <Route
-          path="/student"
-          element={
-            <ProtectedRoute allowedRoles={['student', 'guardian']}>
-              <StudentDashboard />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/student"
+            element={
+              <ProtectedRoute allowedRoles={['student', 'guardian']}>
+                <StudentDashboard />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/teacher"
-          element={
-            <ProtectedRoute allowedRoles={['teacher']}>
-              <TeacherDashboard />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/teacher"
+            element={
+              <ProtectedRoute allowedRoles={['teacher']}>
+                <TeacherDashboard />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
+    </ToastProvider>
   );
 }
 

@@ -93,11 +93,16 @@ export default function NotificationCenter() {
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="relative p-2 text-gray-600 hover:text-gray-800 transition"
+          aria-label={`Notifications ${unreadCount > 0 ? `(${unreadCount} unread)` : ''}`}
+          aria-expanded={isOpen}
+          className="relative p-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-lg transition"
         >
           <Bell className="w-6 h-6" />
           {unreadCount > 0 && (
-            <span className="absolute top-0 right-0 w-5 h-5 bg-red-600 text-white text-xs rounded-full flex items-center justify-center font-bold">
+            <span
+              className="absolute top-0 right-0 w-5 h-5 bg-red-600 text-white text-xs rounded-full flex items-center justify-center font-bold"
+              aria-hidden="false"
+            >
               {unreadCount > 9 ? '9+' : unreadCount}
             </span>
           )}
@@ -105,7 +110,11 @@ export default function NotificationCenter() {
 
         {/* Notification Panel */}
         {isOpen && (
-          <div className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl z-50 border border-gray-200 max-h-96 overflow-hidden flex flex-col">
+          <div
+            className="absolute right-0 mt-2 w-80 sm:w-96 max-w-screen-sm bg-white rounded-lg shadow-xl z-50 border border-gray-200 max-h-96 overflow-hidden flex flex-col"
+            role="region"
+            aria-label="Notifications panel"
+          >
             {/* Header */}
             <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
               <h3 className="font-bold text-gray-800 flex items-center gap-2">
@@ -114,7 +123,8 @@ export default function NotificationCenter() {
               </h3>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1 hover:bg-gray-200 rounded transition"
+                aria-label="Close notifications panel"
+                className="p-1 hover:bg-gray-200 rounded transition focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <X className="w-4 h-4" />
               </button>
