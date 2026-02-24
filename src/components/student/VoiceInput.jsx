@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Mic, Square, Send, Copy, Trash2, Volume2, Settings } from 'lucide-react';
+import { Mic, Send, Copy, Trash2, Volume2 } from 'lucide-react';
 import { useToast } from '../Toast';
 
 export default function VoiceInput() {
@@ -12,18 +12,19 @@ export default function VoiceInput() {
       id: 1,
       text: 'How do we balance equations in chemistry?',
       language: 'en-IN',
-      timestamp: new Date(Date.now() - 60000),
+      timestamp: new Date('2026-02-24T18:00:00.000Z'),
       confidence: 95,
     },
     {
       id: 2,
       text: 'न्यूटन का दूसरा नियम क्या है',
       language: 'hi-IN',
-      timestamp: new Date(Date.now() - 300000),
+      timestamp: new Date('2026-02-24T17:56:00.000Z'),
       confidence: 88,
     },
   ]);
   const [tempTranscript, setTempTranscript] = useState('');
+  const [currentConfidence, setCurrentConfidence] = useState(90);
   const recognitionRef = useRef(null);
 
   const languages = [
@@ -62,6 +63,7 @@ export default function VoiceInput() {
           }
         }
         setTempTranscript(interim);
+        setCurrentConfidence(Math.min(99, 80 + Math.min(19, Math.floor(interim.length / 5))));
       };
 
       recognitionRef.current.onerror = (event) => {
@@ -92,7 +94,7 @@ export default function VoiceInput() {
         text: transcript,
         language: language,
         timestamp: new Date(),
-        confidence: Math.floor(Math.random() * 20 + 80),
+        confidence: currentConfidence,
       };
       setVoiceHistory([newEntry, ...voiceHistory]);
       setTranscript('');
@@ -191,7 +193,7 @@ export default function VoiceInput() {
                 <span className="text-blue-600 italic">{tempTranscript}</span>
               </p>
               {transcript && (
-                <p className="text-xs text-gray-500 mt-2">Confidence: {Math.floor(Math.random() * 20 + 80)}%</p>
+                <p className="text-xs text-gray-500 mt-2">Confidence: {currentConfidence}%</p>
               )}
             </>
           ) : (
@@ -293,3 +295,5 @@ export default function VoiceInput() {
     </div>
   );
 }
+
+

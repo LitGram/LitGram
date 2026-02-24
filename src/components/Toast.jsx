@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { Check, AlertCircle, Info, X } from 'lucide-react';
 
 const ToastContext = createContext();
@@ -8,9 +9,9 @@ export function ToastProvider({ children }) {
 
   const showToast = useCallback((message, type = 'info', duration = 3000) => {
     const id = Date.now();
-    const toast = { id, message, type };
+    const toastItem = { id, message, type };
 
-    setToasts(prev => [...prev, toast]);
+    setToasts(prev => [...prev, toastItem]);
 
     if (duration > 0) {
       setTimeout(() => {
@@ -25,10 +26,12 @@ export function ToastProvider({ children }) {
     setToasts(prev => prev.filter(t => t.id !== id));
   }, []);
 
-  const toast = useCallback((message, duration) => showToast(message, 'info', duration), [showToast]);
-  toast.success = (message, duration) => showToast(message, 'success', duration);
-  toast.error = (message, duration) => showToast(message, 'error', duration);
-  toast.warning = (message, duration) => showToast(message, 'warning', duration);
+  const toast = useMemo(() => ({
+    info: (message, duration) => showToast(message, 'info', duration),
+    success: (message, duration) => showToast(message, 'success', duration),
+    error: (message, duration) => showToast(message, 'error', duration),
+    warning: (message, duration) => showToast(message, 'warning', duration),
+  }), [showToast]);
 
   return (
     <ToastContext.Provider value={{ toast, removeToast }}>
@@ -56,7 +59,7 @@ function ToastContainer({ toasts, removeToast }) {
   );
 }
 
-function Toast({ id, message, type, onClose }) {
+function Toast({ message, type, onClose }) {
   const getStyles = () => {
     switch (type) {
       case 'success':

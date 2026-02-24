@@ -27,7 +27,7 @@ export default function DevelopmentLog() {
 
   const handleAddTraining = () => {
     if (!formData.name || !formData.date || !formData.organizer || !formData.topics || !formData.duration) {
-      alert('Please fill all fields');
+      toast.warning('Please fill all fields');
       return;
     }
 
@@ -45,7 +45,7 @@ export default function DevelopmentLog() {
 
   const handleGenerateAPARSummary = () => {
     if (trainings.length === 0) {
-      alert('No trainings to summarize');
+      toast.warning('No trainings to summarize');
       return;
     }
 
@@ -243,3 +243,4 @@ These learnings have been reflected in my classroom practices and have contribut
     </div>
   );
 }
+

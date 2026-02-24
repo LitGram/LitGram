@@ -3,9 +3,9 @@ import { Flame, Trophy, Target, Calendar, TrendingUp, Award, AlertCircle } from 
 
 export default function StreakTracker() {
   const [currentStreak, setCurrentStreak] = useState(12);
-  const [longestStreak, setLongestStreak] = useState(28);
-  const [totalDaysActive, setTotalDaysActive] = useState(45);
-  const [streakData, setStreakData] = useState({
+  const [longestStreak] = useState(28);
+  const [totalDaysActive] = useState(45);
+  const [streakData] = useState({
     jan: [1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     feb: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   });
@@ -17,7 +17,7 @@ export default function StreakTracker() {
     { id: 4, name: 'Score 80%+', target: 5, current: 2, progress: 40 },
   ]);
 
-  const [badges, setBadges] = useState([
+  const [badges] = useState([
     { id: 1, name: 'Week Warrior', description: '7 day streak', unlocked: true, date: '2024-01-15' },
     { id: 2, name: 'Month Master', description: '30 day streak', unlocked: true, date: '2024-02-10' },
     { id: 3, name: 'Century Club', description: '100 questions solved', unlocked: false, progress: 75 },
@@ -263,3 +263,4 @@ export default function StreakTracker() {
     </div>
   );
 }
+

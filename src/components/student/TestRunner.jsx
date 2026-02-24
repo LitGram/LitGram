@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Clock, AlertCircle, ChevronRight, ChevronLeft } from 'lucide-react';
-import { getTeacherResponse } from '../../api/aiService';
 
 const MOCK_QUESTIONS = [
   {
@@ -43,8 +42,8 @@ const MOCK_QUESTIONS = [
   },
 ];
 
-export default function TestRunner({ config, onComplete, onCancel }) {
-  const [questions, setQuestions] = useState(MOCK_QUESTIONS.slice(0, config.numQuestions));
+export default function TestRunner({ config, onComplete }) {
+  const [questions] = useState(MOCK_QUESTIONS.slice(0, config.numQuestions));
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [timeLeft, setTimeLeft] = useState(config.timeLimit * 60);
@@ -63,7 +62,11 @@ export default function TestRunner({ config, onComplete, onCancel }) {
 
     return () => clearInterval(timer);
   }, []);
-
+  useEffect(() => {
+    if (submitted) {
+      handleSubmitTest();
+    }
+  }, [submitted, handleSubmitTest]);
   const currentQuestion = questions[currentQIndex];
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -90,12 +93,7 @@ export default function TestRunner({ config, onComplete, onCancel }) {
     }
   };
 
-  const handleSubmitTest = () => {
-    const results = calculateResults();
-    onComplete(results);
-  };
-
-  const calculateResults = () => {
+  const calculateResults = useCallback(() => {
     let correct = 0;
     let weakTopics = {};
 
@@ -113,9 +111,7 @@ export default function TestRunner({ config, onComplete, onCancel }) {
     const percentage = (correct / questions.length) * 100;
     const topicList = Object.entries(weakTopics)
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 3);
-
-    return {
+      .slice(0, 3);    return {
       totalQuestions: questions.length,
       correctAnswers: correct,
       wrongAnswers: questions.length - correct,
@@ -124,7 +120,12 @@ export default function TestRunner({ config, onComplete, onCancel }) {
       timestamp: new Date().toISOString(),
       config: config
     };
-  };
+  }, [answers, config, questions]);
+
+  const handleSubmitTest = useCallback(() => {
+    const results = calculateResults();
+    onComplete(results);
+  }, [calculateResults, onComplete]);
 
   const progressPercent = ((currentQIndex + 1) / questions.length) * 100;
 
@@ -269,3 +270,5 @@ export default function TestRunner({ config, onComplete, onCancel }) {
     </div>
   );
 }
+
+

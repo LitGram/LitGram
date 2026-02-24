@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { Calendar, CheckCircle, AlertCircle, RotateCcw } from 'lucide-react';
 import { RBSE_CURRICULUM } from '../../data/curriculum';
 import { useToast } from '../Toast';
@@ -272,9 +272,7 @@ export default function RevisionScheduler() {
               ))}
 
               {daysArray.map(dateStr => {
-                const date = new Date(dateStr);
-                const dayOfWeek = date.getDay();
-                const subjects = schedule[dateStr];
+                const date = new Date(dateStr);                const subjects = schedule[dateStr];
 
                 return (
                   <div
@@ -333,3 +331,4 @@ export default function RevisionScheduler() {
     </div>
   );
 }
+

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useToast } from '../Toast';
 import { Calendar, Download } from 'lucide-react';
 import { exportTextAsPDF } from '../../utils/exportService';
-import { RBSE_CURRICULUM, getSubjectChapters } from '../../data/curriculum';
+import { getSubjectChapters } from '../../data/curriculum';
 
 // Rajasthan school holidays (typical)
 const RAJASTHAN_HOLIDAYS = [
@@ -30,7 +30,7 @@ export default function SchemeOfWorkPlanner() {
 
   const handleGenerateScheme = () => {
     if (!formData.subject || !formData.class || !formData.startDate || !formData.endDate) {
-      alert('Please fill all fields');
+      toast.warning('Please fill all fields');
       return;
     }
 
@@ -316,3 +316,4 @@ export default function SchemeOfWorkPlanner() {
     </div>
   );
 }
+

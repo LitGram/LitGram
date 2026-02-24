@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useToast } from '../Toast';
 import { FileText, Download, Copy } from 'lucide-react';
 import { exportTextAsPDF, copyToClipboard } from '../../utils/exportService';
-import { getSubjectChapters } from '../../data/curriculum';
 
 export default function WorksheetCreator() {
   const toast = useToast();
@@ -277,3 +276,4 @@ SECTION C: PROBLEM SOLVING
     </div>
   );
 }
+

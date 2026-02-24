@@ -11,10 +11,10 @@ export default function HomeworkManager() {
       class: '11-A',
       subject: 'Physics',
       topic: 'Laws of Motion',
-      dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      dueDate: '2026-02-27',
       description: 'Solve problems 1-10 from chapter 3',
       submitted: 'partial',
-      createdDate: new Date().toISOString().split('T')[0],
+      createdDate: '2026-02-24',
     },
   ]);
   const [formData, setFormData] = useState({
@@ -27,7 +27,7 @@ export default function HomeworkManager() {
 
   const handleAddHomework = () => {
     if (!formData.class || !formData.subject || !formData.topic || !formData.dueDate || !formData.description) {
-      alert('Please fill all fields');
+      toast.warning('Please fill all fields');
       return;
     }
 
@@ -35,10 +35,11 @@ export default function HomeworkManager() {
       id: Date.now(),
       ...formData,
       submitted: 'pending',
-      createdDate: new Date().toISOString().split('T')[0],
+      createdDate: '2026-02-24',
     }]);
 
     setFormData({ class: '', subject: '', topic: '', dueDate: '', description: '' });
+    toast.success('Homework created');
   };
 
   const handleUpdateStatus = (id, status) => {
@@ -278,3 +279,4 @@ export default function HomeworkManager() {
     </div>
   );
 }
+

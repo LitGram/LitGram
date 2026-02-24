@@ -25,7 +25,6 @@ export default function TimetableBuilder() {
     classes: ['11-A'],
   });
   const [timetable, setTimetable] = useState(null);
-  const [editingCell, setEditingCell] = useState(null);
 
   const handleGenerateTimetable = () => {
     if (config.subjects.length === 0 || config.classes.length === 0) {
@@ -366,3 +365,4 @@ export default function TimetableBuilder() {
     </div>
   );
 }
+

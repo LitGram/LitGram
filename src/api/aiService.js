@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 const SOCRATIC_SYSTEM_PROMPT = `SYSTEM INSTRUCTION FOR SARATHI AI (STUDENT):
 
 Role: You are 'Sarathi,' a strict but encouraging tutor for Class 11/12 RBSE students.
@@ -28,64 +26,37 @@ Rules:
 6. APAR Assistance: Use official government language but guide the teacher in plain Hindi.
 7. Never generate fake data. If information is missing, ask for it before proceeding.`;
 
-// Mock responses for demo
 const mockSocraticResponses = [
-  "Great question! Let me help you think about this step by step. First, which concept from the NCERT chapter is this related to?",
-  "I appreciate you asking! Rather than giving you the answer, let me ask you: What do you already know about this topic? Have you looked at similar problems?",
-  "Interesting! Let's break this down. Which formula do you think might be useful here? Why did that come to mind?",
-  "Good effort! You're on the right track. Now, can you identify which laws or principles apply to this situation?",
-  "Let me guide you: What information do you have, and what are you trying to find? Have you drawn a diagram to visualize the problem?",
+  'Great question! Let me help you think about this step by step. First, which concept from the NCERT chapter is this related to?',
+  'I appreciate you asking! Rather than giving you the answer, let me ask you: What do you already know about this topic? Have you looked at similar problems?',
+  'Interesting! Let\'s break this down. Which formula do you think might be useful here? Why did that come to mind?',
+  'Good effort! You\'re on the right track. Now, can you identify which laws or principles apply to this situation?',
+  'Let me guide you: What information do you have, and what are you trying to find? Have you drawn a diagram to visualize the problem?',
 ];
 
 const mockTeacherResponses = [
-  "I'm ready to help you save time! What specific task do you need help with? For example, are you looking to generate a daily diary entry, create a lesson plan, or something else?",
-  "Perfect! Let me gather some information to create this for you. What are the key details I should know?",
-  "Excellent! I'll create a ready-to-use document for you. Just provide the necessary details and I'll handle the rest.",
+  'I\'m ready to help you save time! What specific task do you need help with? For example, are you looking to generate a daily diary entry, create a lesson plan, or something else?',
+  'Perfect! Let me gather some information to create this for you. What are the key details I should know?',
+  'Excellent! I\'ll create a ready-to-use document for you. Just provide the necessary details and I\'ll handle the rest.',
 ];
 
-export async function getSocraticResponse(question, language = 'english') {
-  // TODO: Replace with actual API call when backend is ready
-  // For now, return mock responses
-  const randomIndex = Math.floor(Math.random() * mockSocraticResponses.length);
-  return mockSocraticResponses[randomIndex];
+function pickResponse(responses, seedText) {
+  const seed = Array.from(seedText).reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
+  return responses[seed % responses.length];
+}
 
-  /* Future implementation with actual API:
-  try {
-    const response = await axios.post('/api/chat/student', {
-      message: question,
-      language: language,
-      systemPrompt: SOCRATIC_SYSTEM_PROMPT,
-    });
-    return response.data.response;
-  } catch (error) {
-    console.error('Error getting Socratic response:', error);
-    return 'Sorry, I encountered an error. Please try again.';
-  }
-  */
+export async function getSocraticResponse(question, language = 'english') {
+  const seedText = `${language}:${question || ''}`;
+  return pickResponse(mockSocraticResponses, seedText);
 }
 
 export async function getTeacherResponse(request, context = {}) {
-  // TODO: Replace with actual API call when backend is ready
-  const randomIndex = Math.floor(Math.random() * mockTeacherResponses.length);
-  return mockTeacherResponses[randomIndex];
-
-  /* Future implementation:
-  try {
-    const response = await axios.post('/api/chat/teacher', {
-      request: request,
-      context: context,
-      systemPrompt: TEACHER_SYSTEM_PROMPT,
-    });
-    return response.data.response;
-  } catch (error) {
-    console.error('Error getting teacher response:', error);
-    return 'Sorry, I encountered an error. Please try again.';
-  }
-  */
+  const contextText = JSON.stringify(context);
+  const seedText = `${request || ''}:${contextText}`;
+  return pickResponse(mockTeacherResponses, seedText);
 }
 
 export async function generateDailyDiary(subject, className, topic, period, activities, homework) {
-  // Mock implementation
   return `DAILY DIARY ENTRY
 Date: ${new Date().toLocaleDateString()}
 Subject: ${subject}
@@ -138,10 +109,15 @@ Resources Required:
 - Student notebooks`;
 }
 
-export async function generateQuestionPaper(subject, className, chapters, difficulty, totalMarks, questionTypes) {
+export async function generateQuestionPaper(subject, className, chapters, difficulty, totalMarks, questionTypes = []) {
+  const questionTypeText = questionTypes.length > 0 ? questionTypes.join(', ') : 'MCQ, Short, Long';
+
   return `QUESTION PAPER
 Subject: ${subject}
 Class: ${className}
+Chapters: ${chapters}
+Difficulty: ${difficulty}
+Question Types: ${questionTypeText}
 Total Marks: ${totalMarks}
 Time: 3 hours
 

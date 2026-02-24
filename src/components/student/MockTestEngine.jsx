@@ -57,7 +57,6 @@ export default function MockTestEngine() {
       <TestRunner
         config={testConfig}
         onComplete={handleTestComplete}
-        onCancel={() => setPhase('config')}
       />
     );
   }
@@ -201,3 +200,4 @@ export default function MockTestEngine() {
     </div>
   );
 }
+

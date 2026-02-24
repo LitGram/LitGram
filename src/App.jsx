@@ -12,7 +12,7 @@ function App() {
 
   useEffect(() => {
     initializeFromStorage();
-  }, []);
+  }, [initializeFromStorage]);
 
   return (
     <ToastProvider>
@@ -46,3 +46,4 @@ function App() {
 }
 
 export default App;
+

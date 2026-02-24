@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layers, Plus, Trash2, Edit2, Download, Share2, Eye, ZoomIn, ZoomOut } from 'lucide-react';
+import { Layers, Plus, Trash2, Download, Share2, Eye, ZoomIn, ZoomOut } from 'lucide-react';
 import { useToast } from '../Toast';
 
 export default function ConceptMaps() {
@@ -26,8 +26,8 @@ export default function ConceptMaps() {
         { source: 'dark', target: 'co2' },
         { source: 'co2', target: 'glucose' },
       ],
-      createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-      updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+      createdAt: new Date('2026-02-17T10:00:00.000Z'),
+      updatedAt: new Date('2026-02-22T10:00:00.000Z'),
     },
     {
       id: 2,
@@ -49,8 +49,8 @@ export default function ConceptMaps() {
         { source: 'nucleus', target: 'neutrons' },
         { source: 'electrons', target: 'orbitals' },
       ],
-      createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
-      updatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+      createdAt: new Date('2026-02-10T10:00:00.000Z'),
+      updatedAt: new Date('2026-02-21T10:00:00.000Z'),
     },
   ]);
 
@@ -117,11 +117,11 @@ export default function ConceptMaps() {
     setSelectedMap(updatedMap);
   };
 
-  const handleDownloadMap = (mapId) => {
+  const handleDownloadMap = () => {
     toast.success('Concept map downloaded!');
   };
 
-  const handleShareMap = (mapId) => {
+  const handleShareMap = () => {
     toast.success('Share link copied to clipboard!');
   };
 
@@ -426,3 +426,4 @@ export default function ConceptMaps() {
     </div>
   );
 }
+

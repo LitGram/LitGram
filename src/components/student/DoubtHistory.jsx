@@ -8,10 +8,10 @@ export default function DoubtHistory() {
       subject: 'Physics',
       topic: 'Newton\'s Second Law',
       question: 'How to apply F=ma when multiple forces act on an object?',
-      askedOn: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+      askedOn: new Date('2026-02-21T10:00:00.000Z'),
       resolved: true,
       answer: 'Net force is the vector sum of all forces. Calculate resultant and apply F=ma.',
-      resolvedOn: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+      resolvedOn: new Date('2026-02-22T10:00:00.000Z'),
       tutorName: 'AI Tutor',
       category: 'Concept',
       helpfulness: 5,
@@ -21,10 +21,10 @@ export default function DoubtHistory() {
       subject: 'Mathematics',
       topic: 'Integration by Substitution',
       question: 'When should I use u-substitution vs integration by parts?',
-      askedOn: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+      askedOn: new Date('2026-02-23T10:00:00.000Z'),
       resolved: true,
       answer: 'Use substitution when you see a composition. Use by-parts when you have a product of functions.',
-      resolvedOn: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+      resolvedOn: new Date('2026-02-23T12:00:00.000Z'),
       tutorName: 'AI Tutor',
       category: 'Technique',
       helpfulness: 4,
@@ -34,7 +34,7 @@ export default function DoubtHistory() {
       subject: 'Chemistry',
       topic: 'Electrochemistry',
       question: 'How to calculate cell potential for non-standard conditions?',
-      askedOn: new Date(Date.now() - 0.5 * 24 * 60 * 60 * 1000),
+      askedOn: new Date('2026-02-24T06:00:00.000Z'),
       resolved: false,
       answer: null,
       resolvedOn: null,
@@ -330,3 +330,4 @@ export default function DoubtHistory() {
     </div>
   );
 }
+

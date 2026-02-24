@@ -1,75 +1,84 @@
 import React, { useState } from 'react';
-import { Bell, X, Check, AlertCircle, Info, BookOpen, CheckCircle, Clock, FileText } from 'lucide-react';
+import { Bell, X, Check, AlertCircle, Info, BookOpen, CheckCircle } from 'lucide-react';
+
+const INITIAL_NOTIFICATIONS = [
+  {
+    id: 1,
+    type: 'homework',
+    title: 'Homework Due Tomorrow',
+    message: 'Physics Chapter 3 - 10 questions due by 5 PM tomorrow',
+    timestamp: '2026-02-24T17:30:00.000Z',
+    read: false,
+    icon: BookOpen,
+    color: 'bg-blue-100 text-blue-600',
+  },
+  {
+    id: 2,
+    type: 'test',
+    title: 'Mock Test Results Available',
+    message: 'Your Physics mock test (Scored 78/100) results are ready',
+    timestamp: '2026-02-24T17:00:00.000Z',
+    read: false,
+    icon: CheckCircle,
+    color: 'bg-green-100 text-green-600',
+  },
+  {
+    id: 3,
+    type: 'doubt',
+    title: 'Your Doubt Was Answered',
+    message: "Your question about Newton's Second Law has been answered",
+    timestamp: '2026-02-24T16:00:00.000Z',
+    read: true,
+    icon: AlertCircle,
+    color: 'bg-yellow-100 text-yellow-600',
+  },
+  {
+    id: 4,
+    type: 'achievement',
+    title: 'Achievement Unlocked!',
+    message: 'You reached a 7-day learning streak!',
+    timestamp: '2026-02-24T06:00:00.000Z',
+    read: true,
+    icon: CheckCircle,
+    color: 'bg-purple-100 text-purple-600',
+  },
+  {
+    id: 5,
+    type: 'resource',
+    title: 'New Study Material Available',
+    message: 'Chapter 4 of your course now has video explanations',
+    timestamp: '2026-02-23T18:00:00.000Z',
+    read: true,
+    icon: Info,
+    color: 'bg-indigo-100 text-indigo-600',
+  },
+];
+
+function buildInitialNotifications() {
+  return INITIAL_NOTIFICATIONS.map((notification) => ({
+    ...notification,
+    timestamp: new Date(notification.timestamp),
+  }));
+}
 
 export default function NotificationCenter() {
   const [isOpen, setIsOpen] = useState(false);
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      type: 'homework',
-      title: 'Homework Due Tomorrow',
-      message: 'Physics Chapter 3 - 10 questions due by 5 PM tomorrow',
-      timestamp: new Date(Date.now() - 30 * 60 * 1000),
-      read: false,
-      icon: BookOpen,
-      color: 'bg-blue-100 text-blue-600',
-    },
-    {
-      id: 2,
-      type: 'test',
-      title: 'Mock Test Results Available',
-      message: 'Your Physics mock test (Scored 78/100) results are ready',
-      timestamp: new Date(Date.now() - 60 * 60 * 1000),
-      read: false,
-      icon: CheckCircle,
-      color: 'bg-green-100 text-green-600',
-    },
-    {
-      id: 3,
-      type: 'doubt',
-      title: 'Your Doubt Was Answered',
-      message: 'Your question about Newton\'s Second Law has been answered',
-      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-      read: true,
-      icon: AlertCircle,
-      color: 'bg-yellow-100 text-yellow-600',
-    },
-    {
-      id: 4,
-      type: 'achievement',
-      title: 'Achievement Unlocked!',
-      message: 'You reached a 7-day learning streak! 🔥',
-      timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000),
-      read: true,
-      icon: CheckCircle,
-      color: 'bg-purple-100 text-purple-600',
-    },
-    {
-      id: 5,
-      type: 'resource',
-      title: 'New Study Material Available',
-      message: 'Chapter 4 of your course now has video explanations',
-      timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000),
-      read: true,
-      icon: Info,
-      color: 'bg-indigo-100 text-indigo-600',
-    },
-  ]);
+  const [notifications, setNotifications] = useState(() => buildInitialNotifications());
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
   const handleMarkAsRead = (id) => {
-    setNotifications(notifications.map(n =>
+    setNotifications(prev => prev.map(n =>
       n.id === id ? { ...n, read: true } : n
     ));
   };
 
   const handleMarkAllAsRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, read: true })));
+    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
   };
 
   const handleDeleteNotification = (id) => {
-    setNotifications(notifications.filter(n => n.id !== id));
+    setNotifications(prev => prev.filter(n => n.id !== id));
   };
 
   const handleDeleteAll = () => {
@@ -89,7 +98,6 @@ export default function NotificationCenter() {
 
   return (
     <>
-      {/* Notification Bell Button */}
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -108,14 +116,12 @@ export default function NotificationCenter() {
           )}
         </button>
 
-        {/* Notification Panel */}
         {isOpen && (
           <div
             className="absolute right-0 mt-2 w-80 sm:w-96 max-w-screen-sm bg-white rounded-lg shadow-xl z-50 border border-gray-200 max-h-96 overflow-hidden flex flex-col"
             role="region"
             aria-label="Notifications panel"
           >
-            {/* Header */}
             <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
               <h3 className="font-bold text-gray-800 flex items-center gap-2">
                 <Bell className="w-5 h-5" />
@@ -130,7 +136,6 @@ export default function NotificationCenter() {
               </button>
             </div>
 
-            {/* Notifications List */}
             <div className="overflow-y-auto flex-1">
               {notifications.length === 0 ? (
                 <div className="p-6 text-center text-gray-600">
@@ -181,7 +186,6 @@ export default function NotificationCenter() {
               )}
             </div>
 
-            {/* Footer */}
             {notifications.length > 0 && (
               <div className="p-3 border-t border-gray-200 bg-gray-50 flex gap-2">
                 <button

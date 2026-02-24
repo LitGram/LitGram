@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { FileText, Download, Eye, Calendar, TrendingUp, BookOpen, Filter, Search, ChevronRight } from 'lucide-react';
+import { FileText, Download, Eye, TrendingUp, BookOpen, Search } from 'lucide-react';
 import { useToast } from '../Toast';
 
 export default function PreviousYearPapers() {
   const toast = useToast();
-  const [papers, setPapers] = useState([
+  const [papers] = useState([
     {
       id: 1,
       subject: 'Physics',
@@ -97,7 +97,7 @@ export default function PreviousYearPapers() {
     setSelectedPaper(paper);
   };
 
-  const handleDownloadPaper = (paperId) => {
+  const handleDownloadPaper = () => {
     toast.success('Paper downloaded successfully!');
   };
 
@@ -391,3 +391,4 @@ export default function PreviousYearPapers() {
     </div>
   );
 }
+

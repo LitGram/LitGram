@@ -26,7 +26,6 @@ export default function FormulaFlashcards() {
   };
 
   const handleMarkMastered = () => {
-    const card = selectedDeck.cards[currentCardIdx];
     setMasteredCards(prev => ({
       ...prev,
       [currentCardIdx]: true
@@ -35,7 +34,6 @@ export default function FormulaFlashcards() {
   };
 
   const handleMarkWeak = () => {
-    const card = selectedDeck.cards[currentCardIdx];
     setWeakCards(prev => ({
       ...prev,
       [currentCardIdx]: true
@@ -253,3 +251,5 @@ export default function FormulaFlashcards() {
     </div>
   );
 }
+
+

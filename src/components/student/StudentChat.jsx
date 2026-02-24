@@ -53,7 +53,7 @@ export default function StudentChat() {
         text: response,
       };
       setMessages((prev) => [...prev, assistantMessage]);
-    } catch (err) {
+    } catch {
       setError('Failed to get response. Please try again.');
       toast.error('Unable to get response from tutor');
       // Remove loading user message on error
@@ -171,3 +171,4 @@ export default function StudentChat() {
     </div>
   );
 }
+

@@ -317,7 +317,7 @@ export default function StudentProgressTracker() {
             Needs Support
           </h3>
           <div className="space-y-2">
-            {bottomStudents.slice(0, 5).map((student, idx) => {
+            {bottomStudents.slice(0, 5).map((student) => {
               const stats = getStudentStats(student);
               return (
                 <div key={student.id} className="flex items-center justify-between p-3 bg-red-50 rounded">
@@ -340,3 +340,4 @@ export default function StudentProgressTracker() {
     </div>
   );
 }
+
