@@ -11,6 +11,7 @@ const RevisionScheduler = lazy(() => import('../components/student/RevisionSched
 const FormulaFlashcards = lazy(() => import('../components/student/FormulaFlashcards'));
 const DoubtHistory = lazy(() => import('../components/student/DoubtHistory'));
 const PreviousYearPapers = lazy(() => import('../components/student/PreviousYearPapers'));
+const SchoolHomeworkInbox = lazy(() => import('../components/student/SchoolHomeworkInbox'));
 const VoiceInput = lazy(() => import('../components/student/VoiceInput'));
 const StreakTracker = lazy(() => import('../components/student/StreakTracker'));
 const ConceptMaps = lazy(() => import('../components/student/ConceptMaps'));
@@ -175,6 +176,16 @@ export default function StudentDashboard() {
             Papers
           </button>
           <button
+            onClick={() => setActiveSection('homework')}
+            className={[
+              'px-4 py-2 font-medium transition whitespace-nowrap text-sm',
+              activeSection === 'homework' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600 hover:text-gray-800',
+            ].join(' ')}
+          >
+            <BookOpen className="w-4 h-4 inline mr-2" />
+            Homework
+          </button>
+          <button
             onClick={() => setActiveSection('voice')}
             className={`px-4 py-2 font-medium transition whitespace-nowrap text-sm ${
               activeSection === 'voice'
@@ -272,6 +283,12 @@ export default function StudentDashboard() {
           </Suspense>
         )}
 
+        {activeSection === 'homework' && (
+          <Suspense fallback={<LoadingSpinner />}>
+            <SchoolHomeworkInbox />
+          </Suspense>
+        )}
+
         {activeSection === 'voice' && (
           <Suspense fallback={<LoadingSpinner />}>
             <VoiceInput />
@@ -320,3 +337,7 @@ export default function StudentDashboard() {
     </div>
   );
 }
+
+
+
+

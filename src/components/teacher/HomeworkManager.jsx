@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useToast } from '../Toast';
-import { BookOpen, Plus, CheckCircle, AlertCircle, Trash2 } from 'lucide-react';
+import { BookOpen, Plus, AlertCircle, Trash2 } from 'lucide-react';
+import useAuthStore from '../../stores/authStore';
+import {
+  createHomeworkForSchool,
+  deleteHomeworkForSchool,
+  getHomeworkForSchool,
+  updateHomeworkForSchool,
+} from '../../services/homeworkService';
 import { formatDate } from '../../utils/exportService';
 
 export default function HomeworkManager() {
   const toast = useToast();
-  const [homeworks, setHomeworks] = useState([
-    {
-      id: 1,
-      class: '11-A',
-      subject: 'Physics',
-      topic: 'Laws of Motion',
-      dueDate: '2026-02-27',
-      description: 'Solve problems 1-10 from chapter 3',
-      submitted: 'partial',
-      createdDate: '2026-02-24',
-    },
-  ]);
+  const schoolCode = useAuthStore((state) => state.schoolCode);
+  const [homeworks, setHomeworks] = useState([]);
   const [formData, setFormData] = useState({
     class: '',
     subject: '',
@@ -25,31 +22,48 @@ export default function HomeworkManager() {
     description: '',
   });
 
+  useEffect(() => {
+    setHomeworks(getHomeworkForSchool(schoolCode));
+  }, [schoolCode]);
+
+  const refreshHomeworks = () => {
+    setHomeworks(getHomeworkForSchool(schoolCode));
+  };
+
   const handleAddHomework = () => {
+    if (!schoolCode) {
+      toast.warning('Add a school code at login to share homework with students');
+      return;
+    }
+
     if (!formData.class || !formData.subject || !formData.topic || !formData.dueDate || !formData.description) {
       toast.warning('Please fill all fields');
       return;
     }
 
-    setHomeworks(prev => [...prev, {
+    const now = new Date();
+    const homework = {
       id: Date.now(),
       ...formData,
+      schoolCode,
       submitted: 'pending',
-      createdDate: '2026-02-24',
-    }]);
+      createdDate: now.toISOString().split('T')[0],
+    };
 
+    createHomeworkForSchool(schoolCode, homework);
     setFormData({ class: '', subject: '', topic: '', dueDate: '', description: '' });
-    toast.success('Homework created');
+    refreshHomeworks();
+    toast.success('Homework created and shared');
   };
 
   const handleUpdateStatus = (id, status) => {
-    setHomeworks(prev => prev.map(hw =>
-      hw.id === id ? { ...hw, submitted: status } : hw
-    ));
+    updateHomeworkForSchool(schoolCode, id, { submitted: status });
+    refreshHomeworks();
   };
 
   const handleDeleteHomework = (id) => {
-    setHomeworks(prev => prev.filter(hw => hw.id !== id));
+    deleteHomeworkForSchool(schoolCode, id);
+    refreshHomeworks();
   };
 
   const getStatusColor = (status) => {
@@ -81,24 +95,21 @@ export default function HomeworkManager() {
   const getDaysUntilDue = (dueDate) => {
     const due = new Date(dueDate);
     const today = new Date();
-    const days = Math.ceil((due - today) / (1000 * 60 * 60 * 24));
-    return days;
+    return Math.ceil((due - today) / (1000 * 60 * 60 * 24));
   };
 
-  const sortedHomeworks = [...homeworks].sort((a, b) => {
-    const daysA = getDaysUntilDue(a.dueDate);
-    const daysB = getDaysUntilDue(b.dueDate);
-    return daysA - daysB;
-  });
+  const sortedHomeworks = [...homeworks].sort((a, b) => getDaysUntilDue(a.dueDate) - getDaysUntilDue(b.dueDate));
 
   return (
     <div className="space-y-6">
-      {/* Create Homework */}
       <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-gray-800 mb-3 flex items-center gap-2">
           <BookOpen className="w-8 h-8 text-blue-600" />
           Homework Manager
         </h2>
+        <p className="text-sm text-gray-600 mb-6">
+          {schoolCode ? `School Code: ${schoolCode} (shared with students)` : 'No school code configured. Homework will not sync to students.'}
+        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
@@ -175,7 +186,6 @@ export default function HomeworkManager() {
         </button>
       </div>
 
-      {/* Homework List */}
       <div className="space-y-4">
         {sortedHomeworks.map(hw => {
           const daysLeft = getDaysUntilDue(hw.dueDate);
@@ -202,11 +212,7 @@ export default function HomeworkManager() {
 
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  {isOverdue ? (
-                    <AlertCircle className="w-5 h-5 text-red-600" />
-                  ) : (
-                    <AlertCircle className="w-5 h-5 text-blue-600" />
-                  )}
+                  <AlertCircle className={`w-5 h-5 ${isOverdue ? 'text-red-600' : 'text-blue-600'}`} />
                   <span className={`text-sm font-medium ${isOverdue ? 'text-red-600' : 'text-blue-600'}`}>
                     {isOverdue ? `Overdue by ${Math.abs(daysLeft)} days` : `Due in ${daysLeft} days`}
                   </span>
@@ -216,7 +222,6 @@ export default function HomeworkManager() {
                 </span>
               </div>
 
-              {/* Status Buttons */}
               <div className="flex gap-2 flex-wrap">
                 {['pending', 'partial', 'all'].map(status => (
                   <button
@@ -233,7 +238,6 @@ export default function HomeworkManager() {
                 ))}
               </div>
 
-              {/* Auto-generated parent message */}
               {hw.submitted === 'pending' && (
                 <div className="mt-3 p-3 bg-yellow-50 rounded border border-yellow-200 text-xs text-gray-700">
                   <p className="font-medium mb-1">Auto-generated message for parents:</p>
@@ -254,7 +258,6 @@ export default function HomeworkManager() {
         )}
       </div>
 
-      {/* Summary */}
       <div className="bg-blue-50 rounded-lg shadow p-6 border border-blue-200">
         <h3 className="font-bold text-gray-800 mb-3">Homework Summary</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -279,4 +282,3 @@ export default function HomeworkManager() {
     </div>
   );
 }
-
